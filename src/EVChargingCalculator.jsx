@@ -127,6 +127,12 @@ const EVChargingCalculator = () => {
 
         <div style={styles.results}>
           <div style={styles.resultRow}>
+            <span style={styles.resultLabel}>Total energy needed:</span>
+            <span style={styles.resultValue}>
+              {((chargeNeeded / 100) * batteryCapacity).toFixed(1)} kWh
+            </span>
+          </div>
+          <div style={styles.resultRow}>
             <span style={styles.resultLabel}>Charging power:</span>
             <span style={styles.resultValue}>{chargingPower.toFixed(1)} kW</span>
           </div>
