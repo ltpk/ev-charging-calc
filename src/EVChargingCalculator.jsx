@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import styles from './styles'
+import './styles.css'
 
-// InputField component
 const InputField = ({ label, value, onChange, min, max }) => {
   const handleChange = (e) => {
     const newValue = parseFloat(e.target.value) || 0
@@ -10,15 +9,15 @@ const InputField = ({ label, value, onChange, min, max }) => {
   }
 
   return (
-    <div style={styles.inputGroup}>
-      <label style={styles.label}>{label}: <strong>{value}</strong></label>
+    <div className="input-group">
+      <label className="label">{label}: <strong>{value}</strong></label>
       <input
         type='range'
         value={value}
         onChange={handleChange}
         min={min}
         max={max}
-        style={styles.input}
+        className="input"
       />
     </div>
   )
@@ -28,8 +27,8 @@ InputField.propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
-  min: PropTypes.string,
-  max: PropTypes.string,
+  min: PropTypes.number,
+  max: PropTypes.number,
 }
 
 const SelectField = ({ label, value, onChange, options }) => {
@@ -38,9 +37,9 @@ const SelectField = ({ label, value, onChange, options }) => {
   }
 
   return (
-    <div style={styles.inputGroup}>
-      <label style={styles.label}>{label}:</label>
-      <select value={value} onChange={handleChange} style={styles.input}>
+    <div className="input-group">
+      <label className="label">{label}:</label>
+      <select value={value} onChange={handleChange} className="input">
         {options.map((option) => (
           <option key={option} value={option}>
             {option}
@@ -66,16 +65,15 @@ const EVChargingCalculator = () => {
   const [initialCharge, setInitialCharge] = useState(20)
   const [targetCharge, setTargetCharge] = useState(80)
 
-  // Dynamically calculate values instead of storing them in state
-  const chargingPower = (phases * amperage * voltage) / 1000 // in kW
-  const chargingSpeed = (chargingPower / batteryCapacity) * 100 // % per hour
-  const chargeNeeded = targetCharge - initialCharge // % needed
-  const hoursNeeded = chargeNeeded / chargingSpeed // total hours required
+  const chargingPower = (phases * amperage * voltage) / 1000
+  const chargingSpeed = (chargingPower / batteryCapacity) * 100
+  const chargeNeeded = targetCharge - initialCharge
+  const hoursNeeded = chargeNeeded / chargingSpeed
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h2 style={styles.title}>EV Charging Calculator</h2>
+    <div className="container">
+      <div className="card">
+        <h2 className="title">EV Charging Calculator</h2>
 
         <InputField
           label='Battery capacity (kWh)'
@@ -91,7 +89,7 @@ const EVChargingCalculator = () => {
           options={[1, 3]}
         />
 
-        <div style={styles.twoColumns}>
+        <div className="two-columns">
           <InputField
             label='Charge current (A)'
             value={amperage}
@@ -108,7 +106,7 @@ const EVChargingCalculator = () => {
           />
         </div>
 
-        <div style={styles.twoColumns}>
+        <div className="two-columns">
           <InputField
             label='Initial charge (%)'
             value={initialCharge}
@@ -125,35 +123,35 @@ const EVChargingCalculator = () => {
           />
         </div>
 
-        <div style={styles.results}>
-          <div style={styles.resultRow}>
-            <span style={styles.resultLabel}>Total energy needed:</span>
-            <span style={styles.resultValue}>
+        <div className="results">
+          <div className="result-row">
+            <span className="result-label">Total energy needed:</span>
+            <span className="result-value">
               {((chargeNeeded / 100) * batteryCapacity).toFixed(1)} kWh
             </span>
           </div>
-          <div style={styles.resultRow}>
-            <span style={styles.resultLabel}>Charging power:</span>
-            <span style={styles.resultValue}>{chargingPower.toFixed(1)} kW</span>
+          <div className="result-row">
+            <span className="result-label">Charging power:</span>
+            <span className="result-value">{chargingPower.toFixed(1)} kW</span>
           </div>
-          <div style={styles.resultRow}>
-            <span style={styles.resultLabel}>Charging speed:</span>
-            <span style={styles.resultValue}>{chargingSpeed.toFixed(1)}% per hour</span>
+          <div className="result-row">
+            <span className="result-label">Charging speed:</span>
+            <span className="result-value">{chargingSpeed.toFixed(1)}% per hour</span>
           </div>
-          <div style={styles.resultRow}>
-            <span style={styles.resultLabel}>Time needed:</span>
-            <span style={styles.resultValue}>
+          <div className="result-row">
+            <span className="result-label">Time needed:</span>
+            <span className="result-value">
               {Math.floor(hoursNeeded)} hours {Math.round((hoursNeeded % 1) * 60)} minutes (
               {hoursNeeded.toFixed(1)} hours)
             </span>
           </div>
         </div>
-        <div style={styles.githubLink}>
+        <div className="github-link">
           <a
             href='https://github.com/ltpk/ev-charging-calc'
             target='_blank'
             rel='noopener noreferrer'
-            style={styles.link}
+            className="link"
           >
             View on GitHub
           </a>
