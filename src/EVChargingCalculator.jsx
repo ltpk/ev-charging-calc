@@ -101,8 +101,8 @@ const EVChargingCalculator = () => {
             label='Grid voltage (V)'
             value={voltage}
             onChange={setVoltage}
-            min={220}
-            max={240}
+            min={207}
+            max={244}
           />
         </div>
 
