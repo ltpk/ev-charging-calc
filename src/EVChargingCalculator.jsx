@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import './styles.css'
 
@@ -57,6 +57,28 @@ SelectField.propTypes = {
   options: PropTypes.array.isRequired
 }
 
+const CheckboxField = ({ label, checked, onChange }) => {
+  return (
+    <div className="input-group">
+      <label className="label">
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={(e) => onChange(e.target.checked)}
+          className="checkbox"
+        />
+        {label}
+      </label>
+    </div>
+  )
+}
+
+CheckboxField.propTypes = {
+  label: PropTypes.string.isRequired,
+  checked: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired
+}
+
 const EVChargingCalculator = () => {
   const [phases, setPhases] = useState(3)
   const [batteryCapacity, setBatteryCapacity] = useState(77)
@@ -64,6 +86,37 @@ const EVChargingCalculator = () => {
   const [voltage, setVoltage] = useState(230)
   const [initialCharge, setInitialCharge] = useState(20)
   const [targetCharge, setTargetCharge] = useState(80)
+  const [rememberValues, setRememberValues] = useState(false)
+
+  // Load saved values from localStorage on component mount
+  useState(() => {
+    if (localStorage.getItem('evCalculatorValues')) {
+      const savedValues = JSON.parse(localStorage.getItem('evCalculatorValues'))
+      setPhases(savedValues.phases)
+      setBatteryCapacity(savedValues.batteryCapacity)
+      setAmperage(savedValues.amperage)
+      setVoltage(savedValues.voltage)
+      setInitialCharge(savedValues.initialCharge)
+      setTargetCharge(savedValues.targetCharge)
+      setRememberValues(true)
+    }
+  }, [])
+
+  // Save values to localStorage when rememberValues is true
+  useEffect(() => {
+    if (rememberValues) {
+      localStorage.setItem('evCalculatorValues', JSON.stringify({
+        phases,
+        batteryCapacity,
+        amperage,
+        voltage,
+        initialCharge,
+        targetCharge
+      }))
+    } else {
+      localStorage.removeItem('evCalculatorValues')
+    }
+  }, [rememberValues, phases, batteryCapacity, amperage, voltage, initialCharge, targetCharge])
 
   const chargingPower = (phases * amperage * voltage) / 1000
   const chargingSpeed = (chargingPower / batteryCapacity) * 100
@@ -122,6 +175,12 @@ const EVChargingCalculator = () => {
             max={100}
           />
         </div>
+
+        <CheckboxField
+          label='Remember values on this browser'
+          checked={rememberValues}
+          onChange={setRememberValues}
+        />
 
         <div className="results">
           <div className="result-row">
