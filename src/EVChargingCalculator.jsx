@@ -1,83 +1,8 @@
 import { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import './styles.css'
-
-const InputField = ({ label, value, onChange, min, max }) => {
-  const handleChange = (e) => {
-    const newValue = parseFloat(e.target.value) || 0
-    onChange(newValue)
-  }
-
-  return (
-    <div className="input-group">
-      <label className="label">{label}: <strong>{value}</strong></label>
-      <input
-        type='range'
-        value={value}
-        onChange={handleChange}
-        min={min}
-        max={max}
-        className="input"
-      />
-    </div>
-  )
-}
-
-InputField.propTypes = {
-  label: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-  min: PropTypes.number,
-  max: PropTypes.number,
-}
-
-const SelectField = ({ label, value, onChange, options }) => {
-  const handleChange = (e) => {
-    onChange(e.target.value)
-  }
-
-  return (
-    <div className="input-group">
-      <label className="label">{label}:</label>
-      <select value={value} onChange={handleChange} className="input">
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-    </div>
-  )
-}
-
-SelectField.propTypes = {
-  label: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-  options: PropTypes.array.isRequired
-}
-
-const CheckboxField = ({ label, checked, onChange }) => {
-  return (
-    <div className="input-group">
-      <label className="label">
-        <input
-          type="checkbox"
-          checked={checked}
-          onChange={(e) => onChange(e.target.checked)}
-          className="checkbox"
-        />
-        {label}
-      </label>
-    </div>
-  )
-}
-
-CheckboxField.propTypes = {
-  label: PropTypes.string.isRequired,
-  checked: PropTypes.bool.isRequired,
-  onChange: PropTypes.func.isRequired
-}
+import InputField from './components/InputField'
+import SelectField from './components/SelectField'
+import CheckboxField from './components/CheckboxField'
 
 const EVChargingCalculator = () => {
   const [phases, setPhases] = useState(3)
