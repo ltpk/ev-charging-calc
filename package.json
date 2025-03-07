@@ -1,7 +1,8 @@
 {
   "name": "ev-charging-calc",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "homepage": "https://ltpk.github.io/ev-charging-calc/",
   "type": "module",
   "scripts": {
     "dev": "vite",
