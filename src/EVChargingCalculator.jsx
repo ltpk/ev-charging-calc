@@ -1,52 +1,58 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './styles.css'
 import InputField from './components/InputField'
 import SelectField from './components/SelectField'
 import CheckboxField from './components/CheckboxField'
+import { calculateChargingMetrics } from './utils/chargingCalculations'
+import { useLocalStorage } from './hooks/useLocalStorage'
+import ChargingResults from './components/ChargingResults'
 
 const EVChargingCalculator = () => {
-  const [phases, setPhases] = useState(3)
-  const [batteryCapacity, setBatteryCapacity] = useState(77)
-  const [amperage, setAmperage] = useState(16)
-  const [voltage, setVoltage] = useState(230)
-  const [initialCharge, setInitialCharge] = useState(20)
-  const [targetCharge, setTargetCharge] = useState(80)
-  const [rememberValues, setRememberValues] = useState(false)
+  // Initialize rememberValues based on whether localStorage has the key
+  const [rememberValues, setRememberValues] = useState(() => {
+    return localStorage.getItem('evCalculatorValues') !== null
+  })
 
-  // Load saved values from localStorage on component mount
-  useState(() => {
-    if (localStorage.getItem('evCalculatorValues')) {
-      const savedValues = JSON.parse(localStorage.getItem('evCalculatorValues'))
-      setPhases(savedValues.phases)
-      setBatteryCapacity(savedValues.batteryCapacity)
-      setAmperage(savedValues.amperage)
-      setVoltage(savedValues.voltage)
-      setInitialCharge(savedValues.initialCharge)
-      setTargetCharge(savedValues.targetCharge)
-      setRememberValues(true)
-    }
-  }, [])
+  const [formValues, setFormValues] = useLocalStorage('evCalculatorValues', {
+    phases: 3,
+    batteryCapacity: 77,
+    amperage: 16,
+    voltage: 230,
+    initialCharge: 20,
+    targetCharge: 80
+  }, rememberValues)
 
-  // Save values to localStorage when rememberValues is true
-  useEffect(() => {
-    if (rememberValues) {
-      localStorage.setItem('evCalculatorValues', JSON.stringify({
-        phases,
-        batteryCapacity,
-        amperage,
-        voltage,
-        initialCharge,
-        targetCharge
-      }))
-    } else {
+  const {
+    phases,
+    batteryCapacity,
+    amperage,
+    voltage,
+    initialCharge,
+    targetCharge
+  } = formValues
+
+  const handleValueChange = (key, value) => {
+    setFormValues({
+      ...formValues,
+      [key]: Number(value)
+    })
+  }
+
+  const toggleRememberValues = (value) => {
+    setRememberValues(value)
+    if (!value) {
       localStorage.removeItem('evCalculatorValues')
     }
-  }, [rememberValues, phases, batteryCapacity, amperage, voltage, initialCharge, targetCharge])
+  }
 
-  const chargingPower = (phases * amperage * voltage) / 1000
-  const chargingSpeed = (chargingPower / batteryCapacity) * 100
-  const chargeNeeded = targetCharge - initialCharge
-  const hoursNeeded = chargeNeeded / chargingSpeed
+  const chargingMetrics = calculateChargingMetrics({
+    phases,
+    batteryCapacity,
+    amperage,
+    voltage,
+    initialCharge,
+    targetCharge
+  })
 
   return (
     <div className="container">
@@ -56,14 +62,14 @@ const EVChargingCalculator = () => {
         <InputField
           label='Battery capacity (kWh)'
           value={batteryCapacity}
-          onChange={setBatteryCapacity}
+          onChange={(value) => handleValueChange('batteryCapacity', value)}
           min={0}
         />
 
         <SelectField
           label='Phases'
           value={phases}
-          onChange={setPhases}
+          onChange={(value) => handleValueChange('phases', value)}
           options={[1, 3]}
         />
 
@@ -71,14 +77,14 @@ const EVChargingCalculator = () => {
           <InputField
             label='Charge current (A)'
             value={amperage}
-            onChange={setAmperage}
+            onChange={(value) => handleValueChange('amperage', value)}
             min={0}
             max={16}
           />
           <InputField
             label='Grid voltage (V)'
             value={voltage}
-            onChange={setVoltage}
+            onChange={(value) => handleValueChange('voltage', value)}
             min={207}
             max={244}
           />
@@ -88,14 +94,14 @@ const EVChargingCalculator = () => {
           <InputField
             label='Initial charge (%)'
             value={initialCharge}
-            onChange={setInitialCharge}
+            onChange={(value) => handleValueChange('initialCharge', value)}
             min={0}
             max={100}
           />
           <InputField
             label='Target charge (%)'
             value={targetCharge}
-            onChange={setTargetCharge}
+            onChange={(value) => handleValueChange('targetCharge', value)}
             min={0}
             max={100}
           />
@@ -104,32 +110,11 @@ const EVChargingCalculator = () => {
         <CheckboxField
           label='Remember values on this browser'
           checked={rememberValues}
-          onChange={setRememberValues}
+          onChange={toggleRememberValues}
         />
 
-        <div className="results">
-          <div className="result-row">
-            <span className="result-label">Total energy needed:</span>
-            <span className="result-value">
-              {((chargeNeeded / 100) * batteryCapacity).toFixed(1)} kWh
-            </span>
-          </div>
-          <div className="result-row">
-            <span className="result-label">Charging power:</span>
-            <span className="result-value">{chargingPower.toFixed(1)} kW</span>
-          </div>
-          <div className="result-row">
-            <span className="result-label">Charging speed:</span>
-            <span className="result-value">{chargingSpeed.toFixed(1)}% per hour</span>
-          </div>
-          <div className="result-row">
-            <span className="result-label">Time needed:</span>
-            <span className="result-value">
-              {Math.floor(hoursNeeded)} hours {Math.round((hoursNeeded % 1) * 60)} minutes (
-              {hoursNeeded.toFixed(1)} hours)
-            </span>
-          </div>
-        </div>
+        <ChargingResults metrics={chargingMetrics} />
+
         <div className="github-link">
           <a
             href='https://github.com/ltpk/ev-charging-calc'
