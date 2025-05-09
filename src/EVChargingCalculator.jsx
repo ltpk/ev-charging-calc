@@ -79,7 +79,7 @@ const EVChargingCalculator = () => {
             value={amperage}
             onChange={(value) => handleValueChange('amperage', value)}
             min={0}
-            max={32}
+            max={phases === 1 ? 32 : 16}
           />
           <InputField
             label='Grid voltage (V)'
