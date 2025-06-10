@@ -8,6 +8,7 @@
  * @param {number} params.voltage - Voltage in volts
  * @param {number} params.initialCharge - Initial charge percentage
  * @param {number} params.targetCharge - Target charge percentage
+ * @param {number} params.chargingLoss - Charging loss percentage (optional)
  * @returns {Object} Calculated charging metrics
  */
 export const calculateChargingMetrics = ({
@@ -16,9 +17,13 @@ export const calculateChargingMetrics = ({
   amperage,
   voltage,
   initialCharge,
-  targetCharge
+  targetCharge,
+  chargingLoss = 5
 }) => {
-  const chargingPower = (phases * amperage * voltage) / 1000
+  // Calculate raw charging power
+  const rawChargingPower = (phases * amperage * voltage) / 1000
+  // Adjust for charging loss
+  const chargingPower = rawChargingPower * (1 - chargingLoss / 100)
   const chargingSpeed = (chargingPower / batteryCapacity) * 100
   const chargeNeeded = targetCharge - initialCharge
   const hoursNeeded = chargeNeeded / chargingSpeed

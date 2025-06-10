@@ -19,7 +19,8 @@ const EVChargingCalculator = () => {
     amperage: 16,
     voltage: 230,
     initialCharge: 20,
-    targetCharge: 80
+    targetCharge: 80,
+    chargingLoss: 0
   }, rememberValues)
 
   const {
@@ -28,7 +29,8 @@ const EVChargingCalculator = () => {
     amperage,
     voltage,
     initialCharge,
-    targetCharge
+    targetCharge,
+    chargingLoss
   } = formValues
 
   const handleValueChange = (key, value) => {
@@ -51,7 +53,8 @@ const EVChargingCalculator = () => {
     amperage,
     voltage,
     initialCharge,
-    targetCharge
+    targetCharge,
+    chargingLoss
   })
 
   return (
@@ -106,6 +109,14 @@ const EVChargingCalculator = () => {
             max={100}
           />
         </div>
+
+        <InputField
+          label='Charging loss (%)'
+          value={chargingLoss}
+          onChange={(value) => handleValueChange('chargingLoss', value)}
+          min={0}
+          max={25}
+        />
 
         <CheckboxField
           label='Remember values on this browser'
