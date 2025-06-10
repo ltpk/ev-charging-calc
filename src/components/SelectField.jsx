@@ -1,21 +1,25 @@
 import PropTypes from 'prop-types';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 const SelectField = ({ label, value, onChange, options }) => {
   const handleChange = (e) => {
-    onChange(e.target.value)
+    onChange(Number(e.target.value))
   }
 
   return (
-    <div className="input-group">
-      <label className="label">{label}:</label>
-      <select value={value} onChange={handleChange} className="input">
+    <Box sx={{ mb: 2 }}>
+      <Typography gutterBottom>{label}:</Typography>
+      <Select value={value} onChange={handleChange} sx={{ minWidth: 120 }}>
         {options.map((option) => (
-          <option key={option} value={option}>
+          <MenuItem key={option} value={option}>
             {option}
-          </option>
+          </MenuItem>
         ))}
-      </select>
-    </div>
+      </Select>
+    </Box>
   )
 }
 
