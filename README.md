@@ -11,6 +11,7 @@ Currently hosted at https://ltpk.github.io/ev-charging-calc/
 1. Clone this repo
 2. Run `npm install`
 3. Run `npm run dev`
+4. The application runs at http://localhost:5173/
 
 # TODO
 
@@ -18,5 +19,5 @@ Currently hosted at https://ltpk.github.io/ev-charging-calc/
 - [ ] General cleanup & optimization (maybe even a complete rewrite, who knows)
 - [ ] Preset battery capacity values for some most common EV's
 - [ ] Integration with spot price information for selecting the optimal charging time
-- [ ] Taking charging efficiency into account
+- [x] Taking charging efficiency into account
 - [ ] etc.
