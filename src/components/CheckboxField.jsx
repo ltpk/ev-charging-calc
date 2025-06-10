@@ -1,18 +1,16 @@
 import PropTypes from 'prop-types';
+import Box from '@mui/material/Box';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 const CheckboxField = ({ label, checked, onChange }) => {
   return (
-    <div className="input-group">
-      <label className="label">
-        <input
-          type="checkbox"
-          checked={checked}
-          onChange={(e) => onChange(e.target.checked)}
-          className="checkbox"
-        />
-        {label}
-      </label>
-    </div>
+    <Box sx={{ mb: 2 }}>
+      <FormControlLabel
+        control={<Checkbox checked={checked} onChange={(e) => onChange(e.target.checked)} />}
+        label={label}
+      />
+    </Box>
   )
 }
 

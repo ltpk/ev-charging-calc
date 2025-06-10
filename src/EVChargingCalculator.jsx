@@ -1,11 +1,14 @@
 import { useState } from 'react'
-import './styles.css'
 import InputField from './components/InputField'
 import SelectField from './components/SelectField'
 import CheckboxField from './components/CheckboxField'
 import { calculateChargingMetrics } from './utils/chargingCalculations'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import ChargingResults from './components/ChargingResults'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
 
 const EVChargingCalculator = () => {
   // Initialize rememberValues based on whether localStorage has the key
@@ -58,86 +61,92 @@ const EVChargingCalculator = () => {
   })
 
   return (
-    <div className="container">
-      <div className="card">
-        <h2 className="title">EV Charging Calculator</h2>
+    <Box className="container" sx={{ bgcolor: '#f5f5f5', py: 4 }}>
+      <Card sx={{ maxWidth: 500, mx: 'auto', p: 2 }}>
+        <CardContent>
+          <Typography variant="h4" component="h2" align="center" gutterBottom>
+            EV Charging Calculator
+          </Typography>
 
-        <InputField
-          label='Battery capacity (kWh)'
-          value={batteryCapacity}
-          onChange={(value) => handleValueChange('batteryCapacity', value)}
-          min={0}
-        />
-
-        <SelectField
-          label='Phases'
-          value={phases}
-          onChange={(value) => handleValueChange('phases', value)}
-          options={[1, 3]}
-        />
-
-        <div className="two-columns">
           <InputField
-            label='Charge current (A)'
-            value={amperage}
-            onChange={(value) => handleValueChange('amperage', value)}
+            label='Battery capacity (kWh)'
+            value={batteryCapacity}
+            onChange={(value) => handleValueChange('batteryCapacity', value)}
             min={0}
-            max={phases === 1 ? 32 : 16}
           />
-          <InputField
-            label='Grid voltage (V)'
-            value={voltage}
-            onChange={(value) => handleValueChange('voltage', value)}
-            min={207}
-            max={244}
-          />
-        </div>
 
-        <div className="two-columns">
+          <SelectField
+            label='Phases'
+            value={phases}
+            onChange={(value) => handleValueChange('phases', value)}
+            options={[1, 3]}
+          />
+
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2, mb: 2 }}>
+            <InputField
+              label='Charge current (A)'
+              value={amperage}
+              onChange={(value) => handleValueChange('amperage', value)}
+              min={0}
+              max={phases === 1 ? 32 : 16}
+            />
+            <InputField
+              label='Grid voltage (V)'
+              value={voltage}
+              onChange={(value) => handleValueChange('voltage', value)}
+              min={207}
+              max={244}
+            />
+          </Box>
+
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2, mb: 2 }}>
+            <InputField
+              label='Initial charge (%)'
+              value={initialCharge}
+              onChange={(value) => handleValueChange('initialCharge', value)}
+              min={0}
+              max={100}
+            />
+            <InputField
+              label='Target charge (%)'
+              value={targetCharge}
+              onChange={(value) => handleValueChange('targetCharge', value)}
+              min={0}
+              max={100}
+            />
+          </Box>
+
           <InputField
-            label='Initial charge (%)'
-            value={initialCharge}
-            onChange={(value) => handleValueChange('initialCharge', value)}
+            label='Charging loss (%)'
+            value={chargingLoss}
+            onChange={(value) => handleValueChange('chargingLoss', value)}
             min={0}
-            max={100}
+            max={25}
           />
-          <InputField
-            label='Target charge (%)'
-            value={targetCharge}
-            onChange={(value) => handleValueChange('targetCharge', value)}
-            min={0}
-            max={100}
+
+          <CheckboxField
+            label='Remember values on this browser'
+            checked={rememberValues}
+            onChange={toggleRememberValues}
           />
-        </div>
 
-        <InputField
-          label='Charging loss (%)'
-          value={chargingLoss}
-          onChange={(value) => handleValueChange('chargingLoss', value)}
-          min={0}
-          max={25}
-        />
+          <ChargingResults metrics={chargingMetrics} />
 
-        <CheckboxField
-          label='Remember values on this browser'
-          checked={rememberValues}
-          onChange={toggleRememberValues}
-        />
-
-        <ChargingResults metrics={chargingMetrics} />
-
-        <div className="github-link">
-          <a
-            href='https://github.com/ltpk/ev-charging-calc'
-            target='_blank'
-            rel='noopener noreferrer'
-            className="link"
-          >
-            View on GitHub
-          </a>
-        </div>
-      </div>
-    </div>
+          <Box sx={{ textAlign: 'center', mt: 3 }}>
+            <a
+              href='https://github.com/ltpk/ev-charging-calc'
+              target='_blank'
+              rel='noopener noreferrer'
+              style={{ color: '#666', textDecoration: 'none', fontSize: 12 }}
+              onMouseOver={e => e.currentTarget.style.textDecoration = 'underline'}
+              onMouseOut={e => e.currentTarget.style.textDecoration = 'none'}
+            >
+              View on GitHub
+            </a>
+          </Box>
+        </CardContent>
+      </Card>
+    </Box>
   )
 }
 

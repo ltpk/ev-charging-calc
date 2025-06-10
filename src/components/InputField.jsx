@@ -1,23 +1,25 @@
 import PropTypes from 'prop-types';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Slider from '@mui/material/Slider';
 
 const InputField = ({ label, value, onChange, min, max }) => {
-  const handleChange = (e) => {
-    const newValue = parseFloat(e.target.value) || 0
+  const handleChange = (e, newValue) => {
     onChange(newValue)
   }
 
   return (
-    <div className="input-group">
-      <label className="label">{label}: <strong>{value}</strong></label>
-      <input
-        type='range'
+    <Box sx={{ mb: 2 }}>
+      <Typography gutterBottom>{label}: <strong>{value}</strong></Typography>
+      <Slider
         value={value}
         onChange={handleChange}
         min={min}
         max={max}
-        className="input"
+        step={1}
+        valueLabelDisplay="auto"
       />
-    </div>
+    </Box>
   )
 }
 
