@@ -1,4 +1,6 @@
 import PropTypes from 'prop-types'
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 const ChargingResults = ({ metrics }) => {
   const {
@@ -9,26 +11,12 @@ const ChargingResults = ({ metrics }) => {
   } = metrics
 
   return (
-    <div className="results">
-      <div className="result-row">
-        <span className="result-label">Total energy needed:</span>
-        <span className="result-value">
-          {energyNeeded.toFixed(1)} kWh
-        </span>
-      </div>
-      <div className="result-row">
-        <span className="result-label">Charging power:</span>
-        <span className="result-value">{chargingPower.toFixed(1)} kW</span>
-      </div>
-      <div className="result-row">
-        <span className="result-label">Charging speed:</span>
-        <span className="result-value">{chargingSpeed.toFixed(1)}% per hour</span>
-      </div>
-      <div className="result-row">
-        <span className="result-label">Time needed:</span>
-        <span className="result-value">{formattedTime}</span>
-      </div>
-    </div>
+    <Box sx={{ mt: 3, mb: 2, p: 2, border: '1px solid #eee', borderRadius: 2, background: '#fafafa' }}>
+      <Typography variant="subtitle1">Total energy needed: <strong>{energyNeeded.toFixed(1)} kWh</strong></Typography>
+      <Typography variant="subtitle1">Charging power: <strong>{chargingPower.toFixed(1)} kW</strong></Typography>
+      <Typography variant="subtitle1">Charging speed: <strong>{chargingSpeed.toFixed(1)}% per hour</strong></Typography>
+      <Typography variant="subtitle1">Time needed: <strong>{formattedTime}</strong></Typography>
+    </Box>
   )
 }
 
