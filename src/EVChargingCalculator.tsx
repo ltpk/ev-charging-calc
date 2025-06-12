@@ -11,13 +11,13 @@ import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 
 interface FormValues extends ChargingMetricsParams {
-  phases: number;
-  batteryCapacity: number;
-  amperage: number;
-  voltage: number;
-  initialCharge: number;
-  targetCharge: number;
-  chargingLoss: number;
+  phases: number
+  batteryCapacity: number
+  amperage: number
+  voltage: number
+  initialCharge: number
+  targetCharge: number
+  chargingLoss: number
 }
 
 const EVChargingCalculator: React.FC = () => {
