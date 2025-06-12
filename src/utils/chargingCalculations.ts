@@ -1,20 +1,20 @@
 export interface ChargingMetricsParams {
-  phases: number;
-  batteryCapacity: number;
-  amperage: number;
-  voltage: number;
-  initialCharge: number;
-  targetCharge: number;
-  chargingLoss?: number;
+  phases: number
+  batteryCapacity: number
+  amperage: number
+  voltage: number
+  initialCharge: number
+  targetCharge: number
+  chargingLoss?: number
 }
 
 export interface ChargingMetrics {
-  chargingPower: number;
-  chargingSpeed: number;
-  chargeNeeded: number;
-  hoursNeeded: number;
-  energyNeeded: number;
-  formattedTime: string;
+  chargingPower: number
+  chargingSpeed: number
+  chargeNeeded: number
+  hoursNeeded: number
+  energyNeeded: number
+  formattedTime: string
 }
 
 export function calculateChargingMetrics({
