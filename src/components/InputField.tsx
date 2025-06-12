@@ -1,20 +1,20 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Slider from '@mui/material/Slider';
+import React from 'react'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Slider from '@mui/material/Slider'
 
 export interface InputFieldProps {
-  label: string;
-  value: number;
-  onChange: (value: number) => void;
-  min?: number;
-  max?: number;
+  label: string
+  value: number
+  onChange: (value: number) => void
+  min?: number
+  max?: number
 }
 
 const InputField: React.FC<InputFieldProps> = ({ label, value, onChange, min, max }) => {
   const handleChange = (_: Event, newValue: number | number[]) => {
-    onChange(typeof newValue === 'number' ? newValue : newValue[0]);
-  };
+    onChange(typeof newValue === 'number' ? newValue : newValue[0])
+  }
 
   return (
     <Box sx={{ mb: 2 }}>
@@ -28,7 +28,7 @@ const InputField: React.FC<InputFieldProps> = ({ label, value, onChange, min, ma
         valueLabelDisplay="auto"
       />
     </Box>
-  );
-};
+  )
+}
 
-export default InputField;
+export default InputField
