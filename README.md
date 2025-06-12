@@ -42,11 +42,6 @@ npm run build
 - `utils/` — Calculation logic
 - `hooks/` — Custom React hooks
 
-## Migration Notes
-
-- All logic and UI are now in `.ts`/`.tsx` files. Old `.js`/`.jsx` files are deprecated and can be deleted.
-- Uses strict TypeScript settings for safety and maintainability.
-
 ## License
 
 MIT
