@@ -1,13 +1,20 @@
-import PropTypes from 'prop-types';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
-const SelectField = ({ label, value, onChange, options }) => {
-  const handleChange = (e) => {
-    onChange(Number(e.target.value))
-  }
+export interface SelectFieldProps {
+  label: string;
+  value: number;
+  onChange: (value: number) => void;
+  options: number[];
+}
+
+const SelectField: React.FC<SelectFieldProps> = ({ label, value, onChange, options }) => {
+  const handleChange = (e: React.ChangeEvent<{ value: unknown }> | React.ChangeEvent<HTMLInputElement> | any) => {
+    onChange(Number(e.target.value));
+  };
 
   return (
     <Box sx={{ mb: 2 }}>
@@ -20,14 +27,7 @@ const SelectField = ({ label, value, onChange, options }) => {
         ))}
       </Select>
     </Box>
-  )
-}
+  );
+};
 
-SelectField.propTypes = {
-  label: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-  options: PropTypes.array.isRequired
-}
-
-export default SelectField
+export default SelectField;
