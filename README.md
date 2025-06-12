@@ -1,23 +1,52 @@
-# EV charging calculator
+# EV Charging Calculator
 
-A simple EV charging calculator implemented with React & Vite. Claude 3.5 and later 3.7 Sonnet have been heavily utilized in the development.
+This project is a modern EV charging calculator built with React, Material UI, and TypeScript. It allows users to estimate charging time, power, and energy for electric vehicles, with support for custom parameters and persistent settings.
 
-Can be used as a quick tool to calculate the charging time needed to reach the desired charge state when some typical charging parameters are known.
+## Features
 
-Currently hosted at https://ltpk.github.io/ev-charging-calc/
+- Fully typed with TypeScript
+- Modern Material UI design
+- Adjustable parameters: battery capacity, phases, current, voltage, initial/target charge, charging loss
+- Local storage support for persistent values
+- Responsive and accessible UI
 
-## How to run locally
+## Getting Started
 
-1. Clone this repo
-2. Run `npm install`
-3. Run `npm run dev`
-4. The application runs at http://localhost:5173/
+### Prerequisites
 
-# TODO
+- Node.js (v18 or newer recommended)
+- npm
 
-- [x] Fix the issue with inputs losing focus after changing value (changed them to "range" fields)
-- [ ] General cleanup & optimization (maybe even a complete rewrite, who knows)
-- [ ] Preset battery capacity values for some most common EV's
-- [ ] Integration with spot price information for selecting the optimal charging time
-- [x] Taking charging efficiency into account
-- [ ] etc.
+### Install dependencies
+
+```zsh
+npm install
+```
+
+### Run the app in development mode
+
+```zsh
+npm run dev
+```
+
+### Build for production
+
+```zsh
+npm run build
+```
+
+## Project Structure
+
+- `src/` — Main source code (all files are TypeScript: `.tsx`/`.ts`)
+- `components/` — UI components (Material UI based)
+- `utils/` — Calculation logic
+- `hooks/` — Custom React hooks
+
+## Migration Notes
+
+- All logic and UI are now in `.ts`/`.tsx` files. Old `.js`/`.jsx` files are deprecated and can be deleted.
+- Uses strict TypeScript settings for safety and maintainability.
+
+## License
+
+MIT

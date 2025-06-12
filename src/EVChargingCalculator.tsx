@@ -2,7 +2,7 @@ import { useState } from 'react'
 import InputField from './components/InputField'
 import SelectField from './components/SelectField'
 import CheckboxField from './components/CheckboxField'
-import { calculateChargingMetrics } from './utils/chargingCalculations'
+import { calculateChargingMetrics, ChargingMetricsParams, ChargingMetrics } from './utils/chargingCalculations'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import ChargingResults from './components/ChargingResults'
 import Box from '@mui/material/Box'
@@ -10,13 +10,22 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 
-const EVChargingCalculator = () => {
-  // Initialize rememberValues based on whether localStorage has the key
+interface FormValues extends ChargingMetricsParams {
+  phases: number;
+  batteryCapacity: number;
+  amperage: number;
+  voltage: number;
+  initialCharge: number;
+  targetCharge: number;
+  chargingLoss: number;
+}
+
+const EVChargingCalculator: React.FC = () => {
   const [rememberValues, setRememberValues] = useState(() => {
     return localStorage.getItem('evCalculatorValues') !== null
   })
 
-  const [formValues, setFormValues] = useLocalStorage('evCalculatorValues', {
+  const [formValues, setFormValues] = useLocalStorage<FormValues>('evCalculatorValues', {
     phases: 3,
     batteryCapacity: 77,
     amperage: 16,
@@ -36,21 +45,21 @@ const EVChargingCalculator = () => {
     chargingLoss
   } = formValues
 
-  const handleValueChange = (key, value) => {
+  const handleValueChange = (key: keyof FormValues, value: number) => {
     setFormValues({
       ...formValues,
       [key]: Number(value)
     })
   }
 
-  const toggleRememberValues = (value) => {
+  const toggleRememberValues = (value: boolean) => {
     setRememberValues(value)
     if (!value) {
       localStorage.removeItem('evCalculatorValues')
     }
   }
 
-  const chargingMetrics = calculateChargingMetrics({
+  const chargingMetrics: ChargingMetrics = calculateChargingMetrics({
     phases,
     batteryCapacity,
     amperage,
@@ -61,7 +70,7 @@ const EVChargingCalculator = () => {
   })
 
   return (
-    <Box className="container" sx={{ bgcolor: '#f5f5f5', py: 4 }}>
+    <Box sx={{ bgcolor: '#f5f5f5', py: 4 }}>
       <Card sx={{ maxWidth: 500, mx: 'auto', p: 2 }}>
         <CardContent>
           <Typography variant="h4" component="h2" align="center" gutterBottom>
@@ -138,8 +147,8 @@ const EVChargingCalculator = () => {
               target='_blank'
               rel='noopener noreferrer'
               style={{ color: '#666', textDecoration: 'none', fontSize: 12 }}
-              onMouseOver={e => e.currentTarget.style.textDecoration = 'underline'}
-              onMouseOut={e => e.currentTarget.style.textDecoration = 'none'}
+              onMouseOver={e => (e.currentTarget.style.textDecoration = 'underline')}
+              onMouseOut={e => (e.currentTarget.style.textDecoration = 'none')}
             >
               View on GitHub
             </a>

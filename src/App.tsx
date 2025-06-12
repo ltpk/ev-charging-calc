@@ -1,7 +1,6 @@
 import EVChargingCalculator from './EVChargingCalculator'
+import React from 'react'
 
-function App() {
-  return <EVChargingCalculator />
-}
+const App: React.FC = () => <EVChargingCalculator />
 
 export default App
