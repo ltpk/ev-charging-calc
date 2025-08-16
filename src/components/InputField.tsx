@@ -9,9 +9,10 @@ export interface InputFieldProps {
   onChange: (value: number) => void
   min?: number
   max?: number
+  step?: number
 }
 
-const InputField: React.FC<InputFieldProps> = ({ label, value, onChange, min, max }) => {
+const InputField: React.FC<InputFieldProps> = ({ label, value, onChange, min, max, step = 1 }) => {
   const handleChange = (_: Event, newValue: number | number[]) => {
     onChange(typeof newValue === 'number' ? newValue : newValue[0])
   }
@@ -24,7 +25,7 @@ const InputField: React.FC<InputFieldProps> = ({ label, value, onChange, min, ma
         onChange={handleChange}
         min={min}
         max={max}
-        step={1}
+        step={step}
         valueLabelDisplay="auto"
       />
     </Box>

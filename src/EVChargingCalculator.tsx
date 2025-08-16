@@ -122,6 +122,7 @@ const EVChargingCalculator: React.FC = () => {
               onChange={(value) => handleValueChange('targetCharge', value)}
               min={0}
               max={100}
+              step={10}
             />
           </Box>
 
