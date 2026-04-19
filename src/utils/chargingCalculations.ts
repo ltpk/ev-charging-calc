@@ -9,11 +9,13 @@ export interface ChargingMetricsParams {
 }
 
 export interface ChargingMetrics {
-  chargingPower: number // kW
-  chargingSpeed: number // % per hour
-  chargeNeeded: number // percentage points
-  hoursNeeded: number // decimal hours (0 if not applicable)
-  energyNeeded: number // kWh
+  gridPower: number        // kW drawn from grid (phases × amps × volts)
+  chargingPower: number    // kW delivered to battery (gridPower × efficiency)
+  chargingSpeed: number    // % per hour (based on chargingPower)
+  chargeNeeded: number     // percentage points
+  hoursNeeded: number      // decimal hours
+  energyNeeded: number     // kWh stored in battery
+  gridEnergyNeeded: number // kWh drawn from grid
   formattedTime: string
 }
 
@@ -24,9 +26,10 @@ function clamp(n: number, min: number, max: number) {
 /**
  * Calculate charging metrics.
  * - Assumes voltage in V, amperage in A, phases in {1,3}, batteryCapacity in kWh.
- * - chargingLoss is percent (0-100) applied as an efficiency loss.
- *
- * Returns safe defaults if inputs are invalid (batteryCapacity <= 0, no charge needed, or zero charging power).
+ * - chargingLoss is percent (0-100): energy lost between grid and battery.
+ *   gridPower = phases × amps × volts (fixed by electrical parameters, what the meter sees).
+ *   chargingPower = gridPower × efficiency (what actually reaches the battery).
+ *   Losses slow down charging — more time is needed to store the target energy.
  */
 export function calculateChargingMetrics({
   phases,
@@ -35,9 +38,8 @@ export function calculateChargingMetrics({
   voltage,
   initialCharge,
   targetCharge,
-  chargingLoss = 5
+  chargingLoss = 0
 }: ChargingMetricsParams): ChargingMetrics {
-  // Normalize / clamp inputs
   const clampedChargingLoss = clamp(isFinite(chargingLoss) ? chargingLoss : 0, 0, 100)
   const clampedBatteryCapacity = Math.max(0, Number(batteryCapacity) || 0)
   const clampedInitial = clamp(Number(initialCharge) || 0, 0, 100)
@@ -45,48 +47,58 @@ export function calculateChargingMetrics({
 
   const chargeNeeded = Math.max(0, clampedTarget - clampedInitial)
 
-  // Early exits
   if (clampedBatteryCapacity === 0 || chargeNeeded === 0) {
     return {
+      gridPower: 0,
       chargingPower: 0,
       chargingSpeed: 0,
       chargeNeeded,
       hoursNeeded: 0,
       energyNeeded: 0,
-      formattedTime: chargeNeeded === 0 ? '0 hours 0 minutes (0.0 hours)' : 'N/A'
+      gridEnergyNeeded: 0,
+      formattedTime: chargeNeeded === 0 ? '0 hours 0 minutes' : 'N/A'
     }
   }
 
-  const rawChargingPower = (Number(phases) * Number(amperage) * Number(voltage)) / 1000 // kW
-  const chargingPower = rawChargingPower * (1 - clampedChargingLoss / 100)
+  // Grid power is determined purely by electrical parameters
+  const gridPower = (Number(phases) * Number(amperage) * Number(voltage)) / 1000
 
-  if (!isFinite(chargingPower) || chargingPower <= 0) {
+  if (!isFinite(gridPower) || gridPower <= 0) {
     return {
+      gridPower: 0,
       chargingPower: 0,
       chargingSpeed: 0,
       chargeNeeded,
       hoursNeeded: 0,
       energyNeeded: (chargeNeeded / 100) * clampedBatteryCapacity,
+      gridEnergyNeeded: 0,
       formattedTime: 'N/A'
     }
   }
 
-  const chargingSpeed = (chargingPower / clampedBatteryCapacity) * 100 // % per hour
-  if (!isFinite(chargingSpeed) || chargingSpeed <= 0) {
+  // What actually reaches the battery after losses
+  const efficiency = 1 - clampedChargingLoss / 100
+  const chargingPower = gridPower * efficiency
+
+  if (!isFinite(chargingPower) || chargingPower <= 0) {
     return {
-      chargingPower,
+      gridPower,
+      chargingPower: 0,
       chargingSpeed: 0,
       chargeNeeded,
       hoursNeeded: 0,
       energyNeeded: (chargeNeeded / 100) * clampedBatteryCapacity,
+      gridEnergyNeeded: 0,
       formattedTime: 'N/A'
     }
   }
 
+  // Charging speed and time are based on power delivered to the battery
+  const chargingSpeed = (chargingPower / clampedBatteryCapacity) * 100
   const hoursNeeded = chargeNeeded / chargingSpeed
   const energyNeeded = (chargeNeeded / 100) * clampedBatteryCapacity
+  const gridEnergyNeeded = gridPower * hoursNeeded
 
-  // Convert to hours + minutes with correct rounding (avoid minutes === 60)
   let hours = Math.floor(hoursNeeded)
   let minutes = Math.round((hoursNeeded - hours) * 60)
   if (minutes === 60) {
@@ -94,14 +106,14 @@ export function calculateChargingMetrics({
     minutes = 0
   }
 
-  const formattedTime = `${hours} hours ${minutes} minutes (${hoursNeeded.toFixed(1)} hours)`
-
   return {
+    gridPower,
     chargingPower,
     chargingSpeed,
     chargeNeeded,
     hoursNeeded,
     energyNeeded,
-    formattedTime
+    gridEnergyNeeded,
+    formattedTime: `${hours} hours ${minutes} minutes`
   }
 }
