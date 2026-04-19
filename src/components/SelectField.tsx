@@ -1,7 +1,7 @@
 import React from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import Select from '@mui/material/Select'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 
 export interface SelectFieldProps {
@@ -12,7 +12,7 @@ export interface SelectFieldProps {
 }
 
 const SelectField: React.FC<SelectFieldProps> = ({ label, value, onChange, options }) => {
-  const handleChange = (e: React.ChangeEvent<{ value: unknown }> | React.ChangeEvent<HTMLInputElement> | any) => {
+  const handleChange = (e: SelectChangeEvent<number>) => {
     onChange(Number(e.target.value))
   }
 
