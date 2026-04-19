@@ -2,23 +2,19 @@ import { useState } from 'react'
 import InputField from './components/InputField'
 import SelectField from './components/SelectField'
 import CheckboxField from './components/CheckboxField'
-import { calculateChargingMetrics, ChargingMetricsParams, ChargingMetrics } from './utils/chargingCalculations'
+import { calculateChargingMetrics, ChargingMetricsParams } from './utils/chargingCalculations'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import ChargingResults from './components/ChargingResults'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
+import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 
-interface FormValues extends ChargingMetricsParams {
-  phases: number
-  batteryCapacity: number
-  amperage: number
-  voltage: number
-  initialCharge: number
-  targetCharge: number
-  chargingLoss: number
-}
+// Max amperage per phase — 32A is valid for both single and three phase
+const MAX_AMPERAGE = 32
+
+type FormValues = ChargingMetricsParams
 
 const EVChargingCalculator: React.FC = () => {
   const [rememberValues, setRememberValues] = useState(() => {
@@ -46,10 +42,7 @@ const EVChargingCalculator: React.FC = () => {
   } = formValues
 
   const handleValueChange = (key: keyof FormValues, value: number) => {
-    setFormValues({
-      ...formValues,
-      [key]: Number(value)
-    })
+    setFormValues({ ...formValues, [key]: value })
   }
 
   const toggleRememberValues = (value: boolean) => {
@@ -59,33 +52,27 @@ const EVChargingCalculator: React.FC = () => {
     }
   }
 
-  const chargingMetrics: ChargingMetrics = calculateChargingMetrics({
-    phases,
-    batteryCapacity,
-    amperage,
-    voltage,
-    initialCharge,
-    targetCharge,
-    chargingLoss
-  })
+  const chargingMetrics = calculateChargingMetrics(formValues)
+  const showGridMetrics = (chargingLoss ?? 0) > 0
 
   return (
-    <Box sx={{ bgcolor: '#f5f5f5', py: 4 }}>
+    <Box sx={{ bgcolor: '#f5f5f5', minHeight: '100vh', py: 4 }}>
       <Card sx={{ maxWidth: 500, mx: 'auto', p: 2 }}>
         <CardContent>
-          <Typography variant="h4" component="h2" align="center" gutterBottom>
+          <Typography variant="h4" component="h1" align="center" gutterBottom>
             EV Charging Calculator
           </Typography>
 
           <InputField
-            label='Battery capacity (kWh)'
+            label="Battery capacity (kWh)"
             value={batteryCapacity}
             onChange={(value) => handleValueChange('batteryCapacity', value)}
-            min={0}
+            min={1}
+            max={200}
           />
 
           <SelectField
-            label='Phases'
+            label="Phases"
             value={phases}
             onChange={(value) => handleValueChange('phases', value)}
             options={[1, 3]}
@@ -93,31 +80,31 @@ const EVChargingCalculator: React.FC = () => {
 
           <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2, mb: 2 }}>
             <InputField
-              label='Charge current (A)'
+              label="Charge current (A)"
               value={amperage}
               onChange={(value) => handleValueChange('amperage', value)}
               min={0}
-              max={phases === 1 ? 32 : 16}
+              max={MAX_AMPERAGE}
             />
             <InputField
-              label='Grid voltage (V)'
+              label="Grid voltage (V)"
               value={voltage}
               onChange={(value) => handleValueChange('voltage', value)}
-              min={207}
-              max={244}
+              min={100}
+              max={400}
             />
           </Box>
 
           <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2, mb: 2 }}>
             <InputField
-              label='Initial charge (%)'
+              label="Initial charge (%)"
               value={initialCharge}
               onChange={(value) => handleValueChange('initialCharge', value)}
               min={0}
               max={100}
             />
             <InputField
-              label='Target charge (%)'
+              label="Target charge (%)"
               value={targetCharge}
               onChange={(value) => handleValueChange('targetCharge', value)}
               min={0}
@@ -127,32 +114,32 @@ const EVChargingCalculator: React.FC = () => {
           </Box>
 
           <InputField
-            label='Charging loss (%)'
-            value={chargingLoss}
+            label="Charging loss (%)"
+            value={chargingLoss ?? 0}
             onChange={(value) => handleValueChange('chargingLoss', value)}
             min={0}
             max={25}
           />
 
           <CheckboxField
-            label='Remember values on this browser'
+            label="Remember values on this browser"
             checked={rememberValues}
             onChange={toggleRememberValues}
           />
 
-          <ChargingResults metrics={chargingMetrics} />
+          <ChargingResults metrics={chargingMetrics} showGridMetrics={showGridMetrics} />
 
           <Box sx={{ textAlign: 'center', mt: 3 }}>
-            <a
-              href='https://github.com/ltpk/ev-charging-calc'
-              target='_blank'
-              rel='noopener noreferrer'
-              style={{ color: '#666', textDecoration: 'none', fontSize: 12 }}
-              onMouseOver={e => (e.currentTarget.style.textDecoration = 'underline')}
-              onMouseOut={e => (e.currentTarget.style.textDecoration = 'none')}
+            <Link
+              href="https://github.com/ltpk/ev-charging-calc"
+              target="_blank"
+              rel="noopener noreferrer"
+              color="text.disabled"
+              variant="caption"
+              underline="hover"
             >
               View on GitHub
-            </a>
+            </Link>
           </Box>
         </CardContent>
       </Card>
