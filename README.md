@@ -1,6 +1,8 @@
 # EV Charging Calculator
 
-This project is a modern EV charging calculator built with React, Material UI, and TypeScript. It allows users to estimate charging time, power, and energy for electric vehicles, with support for custom parameters and persistent settings.
+A modern EV charging calculator built with React, Material UI, and TypeScript. Estimates charging time, power, and energy for electric vehicles with support for custom parameters and persistent settings.
+
+**Live app:** https://ltpk.github.io/ev-charging-calc
 
 ## Features
 
@@ -19,28 +21,36 @@ This project is a modern EV charging calculator built with React, Material UI, a
 
 ### Install dependencies
 
-```zsh
+```bash
 npm install
 ```
 
 ### Run the app in development mode
 
-```zsh
+```bash
 npm run dev
 ```
 
 ### Build for production
 
-```zsh
+```bash
 npm run build
+```
+
+### Other commands
+
+```bash
+npm run lint     # ESLint (zero warnings allowed)
+npm run preview  # preview the production build locally
+npm run deploy   # build + push to gh-pages branch
 ```
 
 ## Project Structure
 
 - `src/` — Main source code (all files are TypeScript: `.tsx`/`.ts`)
-- `components/` — UI components (Material UI based)
-- `utils/` — Calculation logic
-- `hooks/` — Custom React hooks
+- `src/components/` — UI components (Material UI based)
+- `src/utils/` — Calculation logic
+- `src/hooks/` — Custom React hooks
 
 ## License
 
