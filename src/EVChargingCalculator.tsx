@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import InputField from './components/InputField'
-import SelectField from './components/SelectField'
 import CheckboxField from './components/CheckboxField'
+import ToggleButton from '@mui/material/ToggleButton'
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import { calculateChargingMetrics, ChargingMetricsParams } from './utils/chargingCalculations'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import ChargingResults from './components/ChargingResults'
@@ -71,12 +72,19 @@ const EVChargingCalculator: React.FC = () => {
             max={200}
           />
 
-          <SelectField
-            label="Phases"
-            value={phases}
-            onChange={(value) => handleValueChange('phases', value)}
-            options={[1, 3]}
-          />
+          <Box sx={{ mb: 2 }}>
+            <Typography gutterBottom>Phases</Typography>
+            <ToggleButtonGroup
+              value={phases}
+              exclusive
+              onChange={(_, value: number | null) => { if (value !== null) handleValueChange('phases', value) }}
+              size="small"
+              color="primary"
+            >
+              <ToggleButton value={1}>1-phase</ToggleButton>
+              <ToggleButton value={3}>3-phase</ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
 
           <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2, mb: 2 }}>
             <InputField
