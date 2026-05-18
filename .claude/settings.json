@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "gh auth switch --user ltpk 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}
