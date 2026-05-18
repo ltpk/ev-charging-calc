@@ -21,9 +21,10 @@ Single-page React app — one calculator screen, no routing. Entry point: `main.
 **Data flow:** All form state lives in `EVChargingCalculator` via `useLocalStorage`. On every render, `calculateChargingMetrics()` is called synchronously with the current form values and the result is passed straight to `ChargingResults`. There is no async logic, no context, no state management library.
 
 **Key files:**
-- `src/EVChargingCalculator.tsx` — form, state, orchestration
+- `src/EVChargingCalculator.tsx` — form, state, orchestration; `FormValues` is a type alias for `ChargingMetricsParams`, so `formValues` is passed directly to `calculateChargingMetrics()` with no mapping
 - `src/utils/chargingCalculations.ts` — pure calculation logic; `ChargingMetricsParams` and `ChargingMetrics` are the canonical input/output types
-- `src/hooks/useLocalStorage.ts` — generic hook; persistence is opt-in via an `enabled` flag driven by the "remember values" checkbox
+- `src/hooks/useLocalStorage.ts` — generic hook; persistence is opt-in via an `enabled` flag driven by the "remember values" checkbox; removing storage on toggle-off is done by calling `localStorage.removeItem` directly in `EVChargingCalculator`, not via the hook
+- `src/components/InputField.tsx` — each field renders a MUI Slider + number `<input>` side-by-side; amperage is capped at `MAX_AMPERAGE = 32` (valid for both 1- and 3-phase)
 - `src/components/` — thin MUI wrappers: `InputField`, `SelectField`, `CheckboxField`, `ChargingResults`
 
 **Grid vs. battery power distinction:** `gridPower = phases × amps × volts / 1000`. `chargingPower = gridPower × (1 − loss%)`. Time and speed are calculated from `chargingPower`; grid energy is calculated from `gridPower`. `ChargingResults` only shows grid metrics when `chargingLoss > 0`.
