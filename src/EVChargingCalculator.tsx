@@ -3,6 +3,8 @@ import InputField from './components/InputField'
 import CheckboxField from './components/CheckboxField'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
+import Autocomplete from '@mui/material/Autocomplete'
+import TextField from '@mui/material/TextField'
 import { calculateChargingMetrics, ChargingMetricsParams } from './utils/chargingCalculations'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import ChargingResults from './components/ChargingResults'
@@ -11,6 +13,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
+import { cars, Car } from './data/cars'
 
 // Max amperage per phase — 32A is valid for both single and three phase
 const MAX_AMPERAGE = 32
@@ -25,16 +28,20 @@ const EVChargingCalculator: React.FC = () => {
   const [formValues, setFormValues] = useLocalStorage<FormValues>('evCalculatorValues', {
     phases: 3,
     batteryCapacity: 77,
+    chargerCap: 11,
     amperage: 16,
     voltage: 230,
     initialCharge: 20,
     targetCharge: 80,
-    chargingLoss: 0
+    chargingLoss: 10
   }, rememberValues)
+
+  const [selectedCar, setSelectedCar] = useState<Car | null>(null)
 
   const {
     phases,
     batteryCapacity,
+    chargerCap,
     amperage,
     voltage,
     initialCharge,
@@ -43,7 +50,15 @@ const EVChargingCalculator: React.FC = () => {
   } = formValues
 
   const handleValueChange = (key: keyof FormValues, value: number) => {
+    if (key === 'batteryCapacity' || key === 'chargerCap') setSelectedCar(null)
     setFormValues({ ...formValues, [key]: value })
+  }
+
+  const handleCarSelect = (car: Car | null) => {
+    setSelectedCar(car)
+    if (car) {
+      setFormValues({ ...formValues, batteryCapacity: car.batteryCapacity, chargerCap: car.chargerCap })
+    }
   }
 
   const toggleRememberValues = (value: boolean) => {
@@ -64,12 +79,35 @@ const EVChargingCalculator: React.FC = () => {
             EV Charging Calculator
           </Typography>
 
+          <Autocomplete
+            options={cars}
+            groupBy={(car) => car.make}
+            getOptionLabel={(car) => `${car.make} ${car.model}`}
+            renderOption={(props, car) => (
+              <li {...props} key={`${car.make}-${car.model}`}>{car.model}</li>
+            )}
+            isOptionEqualToValue={(a, b) => a.make === b.make && a.model === b.model}
+            value={selectedCar}
+            onChange={(_, car) => handleCarSelect(car)}
+            renderInput={(params) => <TextField {...params} label="Car model (optional)" size="small" />}
+            sx={{ mb: 2 }}
+          />
+
           <InputField
             label="Battery capacity (kWh)"
             value={batteryCapacity}
             onChange={(value) => handleValueChange('batteryCapacity', value)}
             min={1}
             max={120}
+          />
+
+          <InputField
+            label="Onboard charger (kW)"
+            value={chargerCap ?? 11}
+            onChange={(value) => handleValueChange('chargerCap', value)}
+            min={1}
+            max={22}
+            step={0.5}
           />
 
           <Box sx={{ mb: 2 }}>

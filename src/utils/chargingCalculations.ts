@@ -6,6 +6,7 @@ export interface ChargingMetricsParams {
   initialCharge: number
   targetCharge: number
   chargingLoss?: number
+  chargerCap?: number
 }
 
 export interface ChargingMetrics {
@@ -38,7 +39,8 @@ export function calculateChargingMetrics({
   voltage,
   initialCharge,
   targetCharge,
-  chargingLoss = 0
+  chargingLoss = 0,
+  chargerCap
 }: ChargingMetricsParams): ChargingMetrics {
   const clampedChargingLoss = clamp(isFinite(chargingLoss) ? chargingLoss : 0, 0, 100)
   const clampedBatteryCapacity = Math.max(0, Number(batteryCapacity) || 0)
@@ -60,10 +62,12 @@ export function calculateChargingMetrics({
     }
   }
 
-  // Grid power is determined purely by electrical parameters
-  const gridPower = (Number(phases) * Number(amperage) * Number(voltage)) / 1000
+  const outletPower = (Number(phases) * Number(amperage) * Number(voltage)) / 1000
+  const gridPower = chargerCap != null && isFinite(chargerCap) && chargerCap > 0
+    ? Math.min(outletPower, chargerCap)
+    : outletPower
 
-  if (!isFinite(gridPower) || gridPower <= 0) {
+  if (!isFinite(outletPower) || outletPower <= 0) {
     return {
       gridPower: 0,
       chargingPower: 0,

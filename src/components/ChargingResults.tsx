@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import Alert from '@mui/material/Alert'
 import React from 'react'
 import { ChargingMetrics } from '../utils/chargingCalculations'
 
@@ -20,13 +19,7 @@ const ChargingResults: React.FC<ChargingResultsProps> = ({ metrics, showGridMetr
     formattedTime
   } = metrics
 
-  if (chargeNeeded === 0) {
-    return (
-      <Alert severity="warning" sx={{ mt: 3, mb: 2 }}>
-        Target charge must be higher than initial charge.
-      </Alert>
-    )
-  }
+  if (chargeNeeded === 0) return null
 
   return (
     <Box sx={{ mt: 3, mb: 2, p: 3, border: '1px solid', borderColor: 'divider', borderRadius: 2, bgcolor: 'grey.50' }}>
