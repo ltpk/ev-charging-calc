@@ -48,9 +48,9 @@ export const cars: Car[] = [
   // Polestar — Polestar 2 Long Range supports 22 kW AC with the Plus Pack
   { make: 'Polestar', model: 'Polestar 2 Standard Range', batteryCapacity: 67, chargerCap: 11, acPhases: 3 },
   { make: 'Polestar', model: 'Polestar 2 Long Range', batteryCapacity: 75, chargerCap: 11, acPhases: 3 },
-  { make: 'Polestar', model: 'Polestar 2 Long Range (22 kW)', batteryCapacity: 75, chargerCap: 22, acPhases: 3 },
   { make: 'Polestar', model: 'Polestar 3 Long Range', batteryCapacity: 107, chargerCap: 11, acPhases: 3 },
   { make: 'Polestar', model: 'Polestar 4 Long Range', batteryCapacity: 94, chargerCap: 11, acPhases: 3 },
+  { make: 'Polestar', model: 'Polestar 4 Long Range (22 kW)', batteryCapacity: 94, chargerCap: 22, acPhases: 3 },
 
   // Skoda
   { make: 'Skoda', model: 'Enyaq 50', batteryCapacity: 52, chargerCap: 11, acPhases: 3 },
