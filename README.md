@@ -6,10 +6,11 @@ A modern EV charging calculator built with React, Material UI, and TypeScript. E
 
 ## Features
 
-- Select from 30 common EV models to auto-fill battery capacity and onboard charger cap
+- Select from 47 EV models (top 10 makes in Finland) to auto-fill battery capacity and onboard charger cap
 - Accounts for onboard charger limit (AC charging cap) — results reflect what the car can actually accept, not just what the outlet supplies
 - Adjustable parameters: battery capacity, onboard charger cap, phases, current, voltage, initial/target charge, charging loss
 - Shows both battery energy and total grid energy drawn when charging loss is set
+- Warns when target charge is not above initial charge
 - Local storage support for persistent settings
 
 ## Getting Started
