@@ -36,12 +36,12 @@ const ChargingResults: React.FC<ChargingResultsProps> = ({ metrics, showGridMetr
         <Typography variant="body2" color="text.secondary">Charging speed</Typography>
         <Typography variant="body2" sx={{ fontWeight: 600, textAlign: 'right' }}>{chargingSpeed.toFixed(1)}% / hr</Typography>
 
-        <Typography variant="body2" color="text.secondary">Charger output</Typography>
+        <Typography variant="body2" color="text.secondary">Charging power</Typography>
         <Typography variant="body2" sx={{ fontWeight: 600, textAlign: 'right' }}>{chargingPower.toFixed(1)} kW</Typography>
 
         {showGridMetrics && (
           <>
-            <Typography variant="body2" color="text.secondary">Grid draw</Typography>
+            <Typography variant="body2" color="text.secondary">Grid power</Typography>
             <Typography variant="body2" sx={{ fontWeight: 600, textAlign: 'right' }}>{gridPower.toFixed(1)} kW</Typography>
           </>
         )}
