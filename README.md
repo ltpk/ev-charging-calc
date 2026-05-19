@@ -43,7 +43,6 @@ npm run build
 ```bash
 npm run lint     # ESLint (zero warnings allowed)
 npm run preview  # preview the production build locally
-npm run deploy   # build + push to gh-pages branch
 ```
 
 ## Project Structure
