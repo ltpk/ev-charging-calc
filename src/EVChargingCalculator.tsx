@@ -50,14 +50,14 @@ const EVChargingCalculator: React.FC = () => {
   } = formValues
 
   const handleValueChange = (key: keyof FormValues, value: number) => {
-    if (key === 'batteryCapacity' || key === 'chargerCap') setSelectedCar(null)
+    if (key === 'batteryCapacity' || key === 'chargerCap' || key === 'phases') setSelectedCar(null)
     setFormValues({ ...formValues, [key]: value })
   }
 
   const handleCarSelect = (car: Car | null) => {
     setSelectedCar(car)
     if (car) {
-      setFormValues({ ...formValues, batteryCapacity: car.batteryCapacity, chargerCap: car.chargerCap })
+      setFormValues({ ...formValues, batteryCapacity: car.batteryCapacity, chargerCap: car.chargerCap, phases: car.acPhases })
     }
   }
 
