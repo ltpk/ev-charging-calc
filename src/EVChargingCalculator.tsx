@@ -69,7 +69,7 @@ const EVChargingCalculator: React.FC = () => {
             value={batteryCapacity}
             onChange={(value) => handleValueChange('batteryCapacity', value)}
             min={1}
-            max={200}
+            max={120}
           />
 
           <Box sx={{ mb: 2 }}>
@@ -103,7 +103,7 @@ const EVChargingCalculator: React.FC = () => {
             />
           </Box>
 
-          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2, mb: 2 }}>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2, mb: targetCharge <= initialCharge ? 1 : 2 }}>
             <InputField
               label="Initial charge (%)"
               value={initialCharge}
@@ -120,6 +120,12 @@ const EVChargingCalculator: React.FC = () => {
               step={10}
             />
           </Box>
+
+          {targetCharge <= initialCharge && (
+            <Typography variant="body2" color="warning.main" sx={{ mb: 2 }}>
+              Target charge must be above initial charge.
+            </Typography>
+          )}
 
           <InputField
             label="Charging loss (%)"
