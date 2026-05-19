@@ -6,11 +6,12 @@ export interface Car {
   acPhases: 1 | 3
 }
 
-// Top 10 EV makes in Finland (2021–2025 sales) — all variants. Battery = usable kWh, chargerCap = max AC kW.
+// Popular EV models in Finland — all variants. Battery = usable kWh, chargerCap = max AC kW.
 export const cars: Car[] = [
   // Audi
   { make: 'Audi', model: 'Q4 e-tron 35', batteryCapacity: 52, chargerCap: 11, acPhases: 3 },
   { make: 'Audi', model: 'Q4 e-tron 40', batteryCapacity: 76.6, chargerCap: 11, acPhases: 3 },
+  { make: 'Audi', model: 'Q6 e-tron', batteryCapacity: 94.9, chargerCap: 11, acPhases: 3 },
   { make: 'Audi', model: 'Q8 e-tron', batteryCapacity: 106, chargerCap: 11, acPhases: 3 },
   { make: 'Audi', model: 'Q8 e-tron (22 kW charger)', batteryCapacity: 106, chargerCap: 22, acPhases: 3 },
 
@@ -18,6 +19,16 @@ export const cars: Car[] = [
   { make: 'BMW', model: 'i4 eDrive35', batteryCapacity: 67, chargerCap: 11, acPhases: 3 },
   { make: 'BMW', model: 'i4 eDrive40', batteryCapacity: 83.9, chargerCap: 11, acPhases: 3 },
   { make: 'BMW', model: 'i5 eDrive40', batteryCapacity: 81.2, chargerCap: 11, acPhases: 3 },
+  { make: 'BMW', model: 'iX3', batteryCapacity: 74, chargerCap: 11, acPhases: 3 },
+
+  // Cupra
+  { make: 'Cupra', model: 'Born 58 kWh', batteryCapacity: 58, chargerCap: 11, acPhases: 3 },
+  { make: 'Cupra', model: 'Born 77 kWh', batteryCapacity: 77, chargerCap: 11, acPhases: 3 },
+
+  // Ford
+  { make: 'Ford', model: 'Explorer Extended Range', batteryCapacity: 77, chargerCap: 11, acPhases: 3 },
+  { make: 'Ford', model: 'Mustang Mach-E Standard Range', batteryCapacity: 70.8, chargerCap: 11, acPhases: 3 },
+  { make: 'Ford', model: 'Mustang Mach-E Extended Range', batteryCapacity: 91, chargerCap: 11, acPhases: 3 },
 
   // Hyundai
   { make: 'Hyundai', model: 'Ioniq 5 Standard Range', batteryCapacity: 58, chargerCap: 11, acPhases: 3 },
@@ -30,6 +41,12 @@ export const cars: Car[] = [
   // Jaguar — pre-2021 models had a 7 kW single-phase charger
   { make: 'Jaguar', model: 'I-Pace (2018–2020)', batteryCapacity: 84.7, chargerCap: 7, acPhases: 1 },
   { make: 'Jaguar', model: 'I-Pace (2021+)', batteryCapacity: 84.7, chargerCap: 11, acPhases: 3 },
+
+  // Mercedes-Benz
+  { make: 'Mercedes-Benz', model: 'EQA 250', batteryCapacity: 66.5, chargerCap: 11, acPhases: 3 },
+  { make: 'Mercedes-Benz', model: 'EQA 250+', batteryCapacity: 70.5, chargerCap: 11, acPhases: 3 },
+  { make: 'Mercedes-Benz', model: 'EQB 250', batteryCapacity: 66.5, chargerCap: 11, acPhases: 3 },
+  { make: 'Mercedes-Benz', model: 'EQB 250+', batteryCapacity: 70.5, chargerCap: 11, acPhases: 3 },
 
   // Kia
   { make: 'Kia', model: 'EV3 Standard Range', batteryCapacity: 56, chargerCap: 11, acPhases: 3 },
@@ -59,6 +76,9 @@ export const cars: Car[] = [
   { make: 'Skoda', model: 'Elroq 50', batteryCapacity: 52, chargerCap: 11, acPhases: 3 },
   { make: 'Skoda', model: 'Elroq 60', batteryCapacity: 59, chargerCap: 11, acPhases: 3 },
   { make: 'Skoda', model: 'Elroq 85', batteryCapacity: 77, chargerCap: 11, acPhases: 3 },
+
+  // Toyota
+  { make: 'Toyota', model: 'bZ4X', batteryCapacity: 71.4, chargerCap: 11, acPhases: 3 },
 
   // Tesla — Model S/X (2021+ refresh) have a 16.5 kW onboard charger (3-phase 24A)
   { make: 'Tesla', model: 'Model 3 Standard Range', batteryCapacity: 57.5, chargerCap: 11, acPhases: 3 },

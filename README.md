@@ -6,7 +6,7 @@ A modern EV charging calculator built with React, Material UI, and TypeScript. E
 
 ## Features
 
-- Select from 58 EV models (top 10 makes in Finland + Tesla S/X + Jaguar) to auto-fill battery capacity, onboard charger cap, and AC phase count
+- Select from 70 popular EV models (Audi, BMW, Cupra, Ford, Hyundai, Jaguar, Kia, Mercedes-Benz, Nissan, Peugeot, Polestar, Skoda, Tesla, Toyota, Volkswagen, Volvo) to auto-fill battery capacity, onboard charger cap, and AC phase count
 - Accounts for onboard charger limit (AC charging cap) — results reflect what the car can actually accept, not just what the outlet supplies
 - Adjustable parameters: battery capacity, onboard charger cap, phases, current, voltage, initial/target charge, charging loss
 - Shows both battery energy and total grid energy drawn when charging loss is set
