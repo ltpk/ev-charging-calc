@@ -23,10 +23,12 @@ export const cars: Car[] = [
   { make: 'Hyundai', model: 'Ioniq 5 Long Range', batteryCapacity: 77.4, chargerCap: 11, acPhases: 3 },
   { make: 'Hyundai', model: 'Ioniq 6 Standard Range', batteryCapacity: 53, chargerCap: 11, acPhases: 3 },
   { make: 'Hyundai', model: 'Ioniq 6 Long Range', batteryCapacity: 74, chargerCap: 11, acPhases: 3 },
-  { make: 'Hyundai', model: 'Kona EV', batteryCapacity: 64.8, chargerCap: 11, acPhases: 3 },
+  { make: 'Hyundai', model: 'Kona EV 64 kWh (2021–2023)', batteryCapacity: 64, chargerCap: 7.2, acPhases: 1 },
+  { make: 'Hyundai', model: 'Kona EV (2023+)', batteryCapacity: 64.8, chargerCap: 11, acPhases: 3 },
 
-  // Jaguar
-  { make: 'Jaguar', model: 'I-Pace', batteryCapacity: 84.7, chargerCap: 11, acPhases: 3 },
+  // Jaguar — pre-2021 models had a 7 kW single-phase charger
+  { make: 'Jaguar', model: 'I-Pace (2018–2020)', batteryCapacity: 84.7, chargerCap: 7, acPhases: 1 },
+  { make: 'Jaguar', model: 'I-Pace (2021+)', batteryCapacity: 84.7, chargerCap: 11, acPhases: 3 },
 
   // Kia
   { make: 'Kia', model: 'EV3 Standard Range', batteryCapacity: 56, chargerCap: 11, acPhases: 3 },
@@ -35,7 +37,8 @@ export const cars: Car[] = [
   { make: 'Kia', model: 'EV6 Long Range', batteryCapacity: 77.4, chargerCap: 11, acPhases: 3 },
   { make: 'Kia', model: 'EV6 GT', batteryCapacity: 77.4, chargerCap: 11, acPhases: 3 },
   { make: 'Kia', model: 'EV9', batteryCapacity: 99.8, chargerCap: 11, acPhases: 3 },
-  { make: 'Kia', model: 'Niro EV', batteryCapacity: 64.8, chargerCap: 11, acPhases: 3 },
+  { make: 'Kia', model: 'e-Niro 64 kWh (2018–2022)', batteryCapacity: 64, chargerCap: 7.2, acPhases: 1 },
+  { make: 'Kia', model: 'Niro EV (2023+)', batteryCapacity: 64.8, chargerCap: 11, acPhases: 3 },
 
   // Nissan — Leaf uses single-phase AC charging only
   { make: 'Nissan', model: 'Leaf 40 kWh', batteryCapacity: 36, chargerCap: 7.4, acPhases: 1 },
