@@ -21,9 +21,7 @@ const MAX_AMPERAGE = 32
 type FormValues = ChargingMetricsParams
 
 const EVChargingCalculator: React.FC = () => {
-  const [rememberValues, setRememberValues] = useState(() => {
-    return localStorage.getItem('evCalculatorValues') !== null
-  })
+  const [rememberValues, setRememberValues] = useState(true)
 
   const [formValues, setFormValues] = useLocalStorage<FormValues>('evCalculatorValues', {
     phases: 3,
