@@ -1,16 +1,16 @@
 # EV Charging Calculator
 
-A modern EV charging calculator built with React, Material UI, and TypeScript. Estimates charging time, power, and energy for electric vehicles with support for custom parameters and persistent settings.
+A modern EV charging calculator built with React, Material UI, and TypeScript. Estimates charging time, power, and energy for electric vehicles.
 
 **Live app:** https://ltpk.github.io/ev-charging-calc
 
 ## Features
 
-- Fully typed with TypeScript
-- Modern Material UI design
-- Adjustable parameters: battery capacity, phases, current, voltage, initial/target charge, charging loss
-- Local storage support for persistent values
-- Responsive and accessible UI
+- Select from 30 common EV models to auto-fill battery capacity and onboard charger cap
+- Accounts for onboard charger limit (AC charging cap) — results reflect what the car can actually accept, not just what the outlet supplies
+- Adjustable parameters: battery capacity, onboard charger cap, phases, current, voltage, initial/target charge, charging loss
+- Shows both battery energy and total grid energy drawn when charging loss is set
+- Local storage support for persistent settings
 
 ## Getting Started
 
@@ -49,6 +49,7 @@ npm run deploy   # build + push to gh-pages branch
 
 - `src/` — Main source code (all files are TypeScript: `.tsx`/`.ts`)
 - `src/components/` — UI components (Material UI based)
+- `src/data/` — Static EV model data (battery capacity, charger cap)
 - `src/utils/` — Calculation logic
 - `src/hooks/` — Custom React hooks
 
