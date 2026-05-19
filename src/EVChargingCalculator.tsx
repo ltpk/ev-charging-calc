@@ -36,7 +36,12 @@ const EVChargingCalculator: React.FC = () => {
     chargingLoss: 10
   }, rememberValues)
 
-  const [selectedCar, setSelectedCar] = useState<Car | null>(null)
+  const [selectedCarKey, setSelectedCarKey] = useLocalStorage<{ make: string; model: string } | null>(
+    'evCalculatorCar', null, rememberValues
+  )
+  const selectedCar = selectedCarKey
+    ? (cars.find(c => c.make === selectedCarKey.make && c.model === selectedCarKey.model) ?? null)
+    : null
 
   const {
     phases,
@@ -50,12 +55,12 @@ const EVChargingCalculator: React.FC = () => {
   } = formValues
 
   const handleValueChange = (key: keyof FormValues, value: number) => {
-    if (key === 'batteryCapacity' || key === 'chargerCap' || key === 'phases') setSelectedCar(null)
+    if (key === 'batteryCapacity' || key === 'chargerCap' || key === 'phases') setSelectedCarKey(null)
     setFormValues({ ...formValues, [key]: value })
   }
 
   const handleCarSelect = (car: Car | null) => {
-    setSelectedCar(car)
+    setSelectedCarKey(car ? { make: car.make, model: car.model } : null)
     if (car) {
       setFormValues({ ...formValues, batteryCapacity: car.batteryCapacity, chargerCap: car.chargerCap, phases: car.acPhases })
     }
@@ -65,6 +70,7 @@ const EVChargingCalculator: React.FC = () => {
     setRememberValues(value)
     if (!value) {
       localStorage.removeItem('evCalculatorValues')
+      localStorage.removeItem('evCalculatorCar')
     }
   }
 
