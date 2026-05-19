@@ -11,7 +11,8 @@ export const cars: Car[] = [
   // Audi
   { make: 'Audi', model: 'Q4 e-tron 35', batteryCapacity: 52, chargerCap: 11, acPhases: 3 },
   { make: 'Audi', model: 'Q4 e-tron 40', batteryCapacity: 76.6, chargerCap: 11, acPhases: 3 },
-  { make: 'Audi', model: 'Q8 e-tron', batteryCapacity: 106, chargerCap: 19.2, acPhases: 3 },
+  { make: 'Audi', model: 'Q8 e-tron', batteryCapacity: 106, chargerCap: 11, acPhases: 3 },
+  { make: 'Audi', model: 'Q8 e-tron (22 kW charger)', batteryCapacity: 106, chargerCap: 22, acPhases: 3 },
 
   // BMW
   { make: 'BMW', model: 'i4 eDrive35', batteryCapacity: 67, chargerCap: 11, acPhases: 3 },
@@ -44,9 +45,10 @@ export const cars: Car[] = [
   { make: 'Nissan', model: 'Leaf 40 kWh', batteryCapacity: 36, chargerCap: 7.4, acPhases: 1 },
   { make: 'Nissan', model: 'Leaf e+', batteryCapacity: 59, chargerCap: 7.4, acPhases: 1 },
 
-  // Polestar
+  // Polestar — Polestar 2 Long Range supports 22 kW AC with the Plus Pack
   { make: 'Polestar', model: 'Polestar 2 Standard Range', batteryCapacity: 67, chargerCap: 11, acPhases: 3 },
   { make: 'Polestar', model: 'Polestar 2 Long Range', batteryCapacity: 75, chargerCap: 11, acPhases: 3 },
+  { make: 'Polestar', model: 'Polestar 2 Long Range (22 kW)', batteryCapacity: 75, chargerCap: 22, acPhases: 3 },
   { make: 'Polestar', model: 'Polestar 3 Long Range', batteryCapacity: 107, chargerCap: 11, acPhases: 3 },
   { make: 'Polestar', model: 'Polestar 4 Long Range', batteryCapacity: 94, chargerCap: 11, acPhases: 3 },
 
@@ -58,9 +60,13 @@ export const cars: Car[] = [
   { make: 'Skoda', model: 'Elroq 60', batteryCapacity: 59, chargerCap: 11, acPhases: 3 },
   { make: 'Skoda', model: 'Elroq 85', batteryCapacity: 77, chargerCap: 11, acPhases: 3 },
 
-  // Tesla
+  // Tesla — Model S/X (2021+ refresh) have a 16.5 kW onboard charger (3-phase 24A)
   { make: 'Tesla', model: 'Model 3 Standard Range', batteryCapacity: 57.5, chargerCap: 11, acPhases: 3 },
   { make: 'Tesla', model: 'Model 3 Long Range', batteryCapacity: 82, chargerCap: 11, acPhases: 3 },
+  { make: 'Tesla', model: 'Model S Long Range', batteryCapacity: 96, chargerCap: 16.5, acPhases: 3 },
+  { make: 'Tesla', model: 'Model S Plaid', batteryCapacity: 96, chargerCap: 16.5, acPhases: 3 },
+  { make: 'Tesla', model: 'Model X Long Range', batteryCapacity: 96, chargerCap: 16.5, acPhases: 3 },
+  { make: 'Tesla', model: 'Model X Plaid', batteryCapacity: 96, chargerCap: 11, acPhases: 3 },
   { make: 'Tesla', model: 'Model Y', batteryCapacity: 79, chargerCap: 11, acPhases: 3 },
 
   // Volkswagen
