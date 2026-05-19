@@ -26,6 +26,7 @@ export const cars: Car[] = [
   { make: 'Cupra', model: 'Born 77 kWh', batteryCapacity: 77, chargerCap: 11, acPhases: 3 },
 
   // Ford
+  { make: 'Ford', model: 'Explorer Standard Range', batteryCapacity: 52, chargerCap: 11, acPhases: 3 },
   { make: 'Ford', model: 'Explorer Extended Range', batteryCapacity: 77, chargerCap: 11, acPhases: 3 },
   { make: 'Ford', model: 'Mustang Mach-E Standard Range', batteryCapacity: 70.8, chargerCap: 11, acPhases: 3 },
   { make: 'Ford', model: 'Mustang Mach-E Extended Range', batteryCapacity: 91, chargerCap: 11, acPhases: 3 },
