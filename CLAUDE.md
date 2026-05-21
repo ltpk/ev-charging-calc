@@ -5,11 +5,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm run dev        # start Vite dev server
-npm run build      # production build to dist/
-npm run lint       # ESLint (zero warnings allowed)
-npm run preview    # preview the production build locally
-npm run deploy     # build + push to gh-pages branch
+bun run dev        # start Vite dev server
+bun run build      # production build to dist/
+bun run lint       # ESLint (zero warnings allowed)
+bun run preview    # preview the production build locally
+bun run deploy     # build + push to gh-pages branch
 ```
 
 There are no tests.
